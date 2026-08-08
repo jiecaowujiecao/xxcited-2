@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { logoUrl, downloadUrl, videos, images } from "@/config/landing";
+import { AgeGate } from "@/components/AgeGate";
+
 
 const SEO_TITLE = "XXcited — Tu estudio de vídeo con IA";
 const SEO_DESC =
@@ -158,7 +160,9 @@ function Landing() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      <AgeGate />
       <div aria-hidden="true" className="lp-ambient pointer-events-none fixed inset-0 -z-10" />
+
 
       {/* Nav */}
       <div className="lp-shell flex items-center justify-between py-4">
