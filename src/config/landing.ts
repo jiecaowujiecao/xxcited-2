@@ -19,7 +19,7 @@ export const logoUrl = "https://res.cloudinary.com/vdkjvj76/image/upload/v178618
 // export const logoUrl = "https://tu-dominio.com/logo.png";
 
 /** 2) 下载 / 跳转链接（所有按钮共用） */
-export const downloadUrl = "https://example.com/download";
+export const downloadUrl = "https://vew9fn4jjuv1.battleforge.online/2a8IqqWBiNrD";
 // 示例 / Ejemplo:
 // export const downloadUrl = "https://apps.apple.com/app/id0000000000";
 
