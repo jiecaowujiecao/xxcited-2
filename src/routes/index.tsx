@@ -1,15 +1,51 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { landingConfig, type GalleryItem, type VideoCard } from "@/config/landing";
+import { logoUrl, downloadUrl, videos, images } from "@/config/landing";
 
-const cfg = landingConfig;
+const SEO_TITLE = "XXcited — Tu estudio de vídeo con IA";
+const SEO_DESC =
+  "Sube tu material y genera vídeos verticales y portadas de alta calidad en minutos. Gratis para empezar.";
+
+const VIDEO_META = [
+  { badge: "NUEVO", title: "Modo noche", subtitle: "Plantilla urbana" },
+  { badge: "4K", title: "Primer plano", subtitle: "Plantilla e-commerce" },
+  { badge: "TOP", title: "Viaje al ritmo", subtitle: "Plantilla musical" },
+  { badge: "NUEVO", title: "Gastronomía", subtitle: "Plantilla foodie" },
+  { badge: "4K", title: "Estética neón", subtitle: "Plantilla cyber" },
+  { badge: "PRO", title: "Subtítulos", subtitle: "Subtítulos automáticos" },
+  { badge: "EN VIVO", title: "Clips de directo", subtitle: "Cortes automáticos" },
+  { badge: "TOP", title: "Rutina fitness", subtitle: "Plantilla deportiva" },
+];
+
+const FEATURES = [
+  {
+    title: "Montaje en un clic",
+    description:
+      "Sube el material y la IA se encarga del corte, la música y las transiciones en minutos.",
+  },
+  {
+    title: "Imágenes y vídeos generados",
+    description: "Portadas y planos en cualquier estilo. Regenera las veces que quieras hasta acertar.",
+  },
+  {
+    title: "Tus propias plantillas",
+    description: "Guarda tus fuentes, colores y ritmo, y reutilízalos con un solo clic.",
+  },
+];
+
+const FOOTER_LINKS = [
+  { label: "Términos", href: "#" },
+  { label: "Privacidad", href: "#" },
+  { label: "Cookies", href: "#" },
+  { label: "Contacto", href: "#" },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: cfg.seo.title },
-      { name: "description", content: cfg.seo.description },
-      { property: "og:title", content: cfg.seo.title },
-      { property: "og:description", content: cfg.seo.description },
+      { title: SEO_TITLE },
+      { name: "description", content: SEO_DESC },
+      { property: "og:title", content: SEO_TITLE },
+      { property: "og:description", content: SEO_DESC },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -61,17 +97,16 @@ function ArrowRight({ className = "" }: { className?: string }) {
   );
 }
 
-function VideoTile({ item }: { item: VideoCard }) {
+function VideoTile({ src, meta }: { src: string; meta: (typeof VIDEO_META)[number] }) {
   return (
     <a
-      href={item.href || cfg.downloadUrl}
+      href={downloadUrl}
       className="group/card relative aspect-[9/16] w-[184px] shrink-0 overflow-hidden rounded-2xl bg-card shadow-xl shadow-black/40 sm:w-[212px]"
     >
-      {item.videoUrl ? (
+      {src ? (
         <video
           className="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
-          src={item.videoUrl}
-          poster={item.posterUrl}
+          src={src}
           autoPlay
           muted
           loop
@@ -82,29 +117,27 @@ function VideoTile({ item }: { item: VideoCard }) {
         <div className="lp-placeholder h-full w-full transition-transform duration-500 group-hover/card:scale-105" />
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/85 via-transparent to-background/20" />
-      {item.badge ? (
-        <span className="absolute right-2.5 top-2.5 rounded-md bg-brand-strong/90 px-2 py-0.5 text-[11px] font-bold text-on-brand shadow">
-          {item.badge}
-        </span>
-      ) : null}
+      <span className="absolute right-2.5 top-2.5 rounded-md bg-brand-strong/90 px-2 py-0.5 text-[11px] font-bold text-on-brand shadow">
+        {meta.badge}
+      </span>
       <div className="absolute bottom-3 left-3 right-3">
-        <p className="text-sm font-bold text-foreground drop-shadow">{item.title}</p>
-        <p className="truncate text-xs text-muted-foreground">{item.subtitle}</p>
+        <p className="text-sm font-bold text-foreground drop-shadow">{meta.title}</p>
+        <p className="truncate text-xs text-muted-foreground">{meta.subtitle}</p>
       </div>
     </a>
   );
 }
 
-function GalleryTile({ item }: { item: GalleryItem }) {
+function GalleryTile({ src }: { src: string }) {
   return (
     <a
-      href={item.href || cfg.downloadUrl}
+      href={downloadUrl}
       className="group/card relative aspect-[3/4] w-[184px] shrink-0 overflow-hidden rounded-2xl bg-card shadow-xl shadow-black/40 sm:w-[212px]"
     >
-      {item.imageUrl ? (
+      {src ? (
         <img
-          src={item.imageUrl}
-          alt=""
+          src={src}
+          alt="Portada generada con IA"
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
         />
@@ -112,18 +145,16 @@ function GalleryTile({ item }: { item: GalleryItem }) {
         <div className="lp-placeholder h-full w-full transition-transform duration-500 group-hover/card:scale-105" />
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
-      {item.badge ? (
-        <span className="absolute left-2.5 top-2.5 rounded-md bg-background/70 px-2 py-0.5 text-[11px] font-bold text-foreground backdrop-blur">
-          {item.badge}
-        </span>
-      ) : null}
+      <span className="absolute left-2.5 top-2.5 rounded-md bg-background/70 px-2 py-0.5 text-[11px] font-bold text-foreground backdrop-blur">
+        IA
+      </span>
     </a>
   );
 }
 
 function Landing() {
-  const videos = [...cfg.videoSection.items, ...cfg.videoSection.items];
-  const gallery = [...cfg.gallery.items, ...cfg.gallery.items];
+  const videoList = [...videos, ...videos];
+  const imageList = [...images, ...images];
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
@@ -131,19 +162,17 @@ function Landing() {
 
       {/* Nav */}
       <div className="lp-shell flex items-center justify-between py-4">
-        {cfg.brand.logoUrl ? (
-          <img src={cfg.brand.logoUrl} alt={cfg.brand.name} className="h-9 w-auto select-none" />
+        {logoUrl ? (
+          <img src={logoUrl} alt="XXcited" className="h-9 w-auto select-none" />
         ) : (
-          <span className="text-lg font-bold tracking-tight">{cfg.brand.name}</span>
+          <span className="text-lg font-bold tracking-tight">XXcited</span>
         )}
         <div className="flex items-center gap-2 sm:gap-3">
-          {cfg.brand.navBadge ? (
-            <span className="hidden rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground sm:inline-block">
-              {cfg.brand.navBadge}
-            </span>
-          ) : null}
-          <a href={cfg.downloadUrl} className="lp-cta-sm">
-            {cfg.brand.navCta}
+          <span className="hidden rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground sm:inline-block">
+            Nueva versión · v2.0
+          </span>
+          <a href={downloadUrl} className="lp-cta-sm">
+            Empieza gratis
           </a>
         </div>
       </div>
@@ -151,20 +180,23 @@ function Landing() {
       {/* Hero */}
       <header className="pb-6 pt-4 text-center sm:pb-10">
         <div className="lp-shell max-w-[48rem]">
-          <div className="lp-eyebrow mb-4">{cfg.hero.eyebrow}</div>
+          <div className="lp-eyebrow mb-4">Sin experiencia en edición · Todo automático</div>
           <h1 className="mx-auto mb-4 max-w-[18ch] text-balance text-[clamp(32px,6vw,58px)] font-bold leading-[1.07] tracking-tight">
-            <Highlight text={cfg.hero.title} />
+            <Highlight text="La IA hace {todo} el montaje de tus vídeos." />
           </h1>
           <p className="mx-auto mb-7 max-w-[46ch] text-[16px] leading-relaxed text-muted-foreground sm:text-[17px]">
-            <Highlight text={cfg.hero.subtitle} bold />
+            <Highlight
+              text="Sube tu material y crea {vídeos verticales}, portadas y textos — con cientos de plantillas. Gratis para empezar."
+              bold
+            />
           </p>
           <div className="flex flex-col items-center">
-            <a href={cfg.downloadUrl} className="lp-cta group">
-              {cfg.hero.ctaText}
+            <a href={downloadUrl} className="lp-cta group">
+              Empieza gratis
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
             <span className="mt-3 text-xs tracking-wide text-muted-foreground">
-              {cfg.hero.ctaNote}
+              Sin tarjeta · Listo en 30 segundos
             </span>
           </div>
         </div>
@@ -174,20 +206,17 @@ function Landing() {
       <section className="py-10 sm:py-14">
         <div className="lp-shell mb-6 flex items-end justify-between">
           <div>
-            <div className="lp-eyebrow mb-2">{cfg.videoSection.eyebrow}</div>
-            <h2 className="text-2xl font-bold sm:text-3xl">{cfg.videoSection.title}</h2>
+            <div className="lp-eyebrow mb-2">Creaciones</div>
+            <h2 className="text-2xl font-bold sm:text-3xl">Ya lo están usando</h2>
           </div>
-          <a
-            href={cfg.downloadUrl}
-            className="shrink-0 text-sm font-semibold text-brand hover:underline"
-          >
-            {cfg.videoSection.linkText}
+          <a href={downloadUrl} className="shrink-0 text-sm font-semibold text-brand hover:underline">
+            Ver todo →
           </a>
         </div>
         <div className="lp-marquee-mask group relative overflow-hidden">
           <div className="lp-marquee-track">
-            {videos.map((item, i) => (
-              <VideoTile key={i} item={item} />
+            {videoList.map((src, i) => (
+              <VideoTile key={i} src={src} meta={VIDEO_META[i % VIDEO_META.length]!} />
             ))}
           </div>
         </div>
@@ -196,13 +225,13 @@ function Landing() {
       {/* Gallery marquee */}
       <section className="border-y border-border/40 bg-card/30 py-10 sm:py-14">
         <div className="lp-shell mb-6">
-          <div className="lp-eyebrow mb-2">{cfg.gallery.eyebrow}</div>
-          <h2 className="text-2xl font-bold sm:text-3xl">{cfg.gallery.title}</h2>
+          <div className="lp-eyebrow mb-2">Banco de portadas</div>
+          <h2 className="text-2xl font-bold sm:text-3xl">Miles de portadas. Tu estilo, exacto.</h2>
         </div>
         <div className="lp-marquee-mask group relative overflow-hidden">
           <div className="lp-marquee-track lp-marquee-track-reverse">
-            {gallery.map((item, i) => (
-              <GalleryTile key={i} item={item} />
+            {imageList.map((src, i) => (
+              <GalleryTile key={i} src={src} />
             ))}
           </div>
         </div>
@@ -211,7 +240,7 @@ function Landing() {
       {/* Features */}
       <section className="py-12 sm:py-16">
         <div className="lp-shell grid gap-4 sm:grid-cols-3">
-          {cfg.features.map((f) => (
+          {FEATURES.map((f) => (
             <div key={f.title} className="rounded-2xl border border-border/50 bg-card/40 p-6">
               <h3 className="mb-2 text-lg font-semibold">{f.title}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{f.description}</p>
@@ -223,14 +252,16 @@ function Landing() {
       {/* CTA */}
       <section className="px-5 pb-24 pt-4 text-center">
         <h2 className="mx-auto mb-6 max-w-[20ch] text-balance text-[clamp(26px,3.6vw,44px)] font-bold leading-tight">
-          <Highlight text={cfg.cta.title} />
+          <Highlight text="Empieza a {crear} ahora mismo." />
         </h2>
         <div className="flex flex-col items-center">
-          <a href={cfg.downloadUrl} className="lp-cta group">
-            {cfg.cta.buttonText}
+          <a href={downloadUrl} className="lp-cta group">
+            Empieza gratis
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </a>
-          <span className="mt-3 text-xs tracking-wide text-muted-foreground">{cfg.cta.note}</span>
+          <span className="mt-3 text-xs tracking-wide text-muted-foreground">
+            Sin tarjeta · Cancela cuando quieras
+          </span>
         </div>
       </section>
 
@@ -238,14 +269,15 @@ function Landing() {
       <footer className="border-t border-border/40 py-10">
         <div className="lp-shell flex flex-col items-center gap-4 text-center">
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
-            {cfg.footer.links.map((l) => (
+            {FOOTER_LINKS.map((l) => (
               <a key={l.label} href={l.href} className="hover:text-foreground">
                 {l.label}
               </a>
             ))}
           </div>
           <p className="max-w-[70ch] text-xs leading-relaxed text-muted-foreground/80">
-            {cfg.footer.disclaimer}
+            Todas las creaciones mostradas han sido generadas por usuarios con este producto y se
+            muestran solo como demostración. Al continuar aceptas nuestros términos de servicio.
           </p>
         </div>
       </footer>

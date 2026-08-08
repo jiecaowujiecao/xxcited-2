@@ -1,130 +1,50 @@
 /**
  * ============================================================
- *  配置文件位置：src/config/landing.ts
- *  Archivo de configuración / Config file
- *  只需修改这个文件即可替换：Logo、图片、视频、下载链接。
- *  Edita solo este archivo: logo, imágenes, vídeos y enlaces.
+ *  配置文件 / Archivo de configuración
+ *  路径 src/config/landing.ts
+ *
+ *  这里只需要填 4 样东西：
+ *  1) logoUrl      —— 网站 Logo 图片链接
+ *  2) downloadUrl  —— 所有按钮点击后跳转的下载链接
+ *  3) videos       —— 8 个视频直链 (mp4/webm)
+ *  4) images       —— 10 个图片直链 (jpg/png/webp)
+ *
+ *  任何一项留空 ("") 都会自动显示渐变占位图，不会报错。
  * ============================================================
  */
 
-export type VideoCard = {
-  /** 视频直链 (mp4/webm)，留空显示占位渐变 / URL del vídeo */
-  videoUrl: string;
-  /** 可选：视频封面图 / Póster opcional */
-  posterUrl?: string;
-  /** 角标 / Etiqueta: "HD" / "NEW" / "EN VIVO" */
-  badge?: string;
-  title: string;
-  subtitle: string;
-  /** 可选：单独跳转链接，留空用全局 downloadUrl */
-  href?: string;
-};
+/** 1) Logo 图片链接。留空则显示文字 "XXcited" */
+export const logoUrl = "https://res.cloudinary.com/vdkjvj76/image/upload/v1786180154/4124_wj7lcn.png";
+// 示例 / Ejemplo:
+// export const logoUrl = "https://tu-dominio.com/logo.png";
 
-export type GalleryItem = {
-  /** 图片直链，留空显示占位渐变 / URL de la imagen */
-  imageUrl: string;
-  badge?: string;
-  href?: string;
-};
+/** 2) 下载 / 跳转链接（所有按钮共用） */
+export const downloadUrl = "https://heartcompan.com/e0qjNXOZuH";
+// 示例 / Ejemplo:
+// export const downloadUrl = "https://apps.apple.com/app/id0000000000";
 
-export const landingConfig = {
-  /** ---------- 品牌 / Marca ---------- */
-  brand: {
-    name: "XXcited",
-    /** Logo 图片链接（png/svg）。留空显示文字 Logo。 */
-    logoUrl: "",
-    /** 顶部小徽章，留空则隐藏 */
-    navBadge: "Nueva versión · v2.0",
-    /** 顶部按钮文案 */
-    navCta: "Empieza gratis",
-  },
+/** 3) 视频链接（顶部跑马灯，共 8 个，按顺序填） */
+export const videos: string[] = [
+  "https://cdn.xxcited.ai/feed-video/1.mp4", // 1  例: https://tu-dominio.com/videos/1.mp4
+  "https://cdn.xxcited.ai/feed-video/2.mp4", // 2
+  "https://cdn.xxcited.ai/feed-video/3.mp4", // 3
+  "https://cdn.xxcited.ai/feed-video/4.mp4", // 4
+  "https://cdn.xxcited.ai/feed-video/5.mp4", // 5
+  "https://cdn.xxcited.ai/feed-video/6.mp4", // 6
+  "https://cdn.xxcited.ai/feed-video/7.mp4", // 7
+  "https://cdn.xxcited.ai/feed-video/8.mp4", // 8
+];
 
-  /** ---------- 全局下载 / 跳转链接 ---------- */
-  downloadUrl: "https://example.com/download",
-
-  /** ---------- SEO ---------- */
-  seo: {
-    title: "XXcited — Tu estudio de vídeo con IA",
-    description:
-      "Sube tu material y genera vídeos verticales y portadas de alta calidad en minutos. Gratis para empezar.",
-  },
-
-  /** ---------- 首屏 Hero ---------- */
-  hero: {
-    eyebrow: "Sin experiencia en edición · Todo automático",
-    /** 用 {} 包裹的词会高亮 / Las palabras entre {} se resaltan */
-    title: "La IA hace {todo} el montaje de tus vídeos.",
-    /** 用 {} 包裹的词会加粗 */
-    subtitle:
-      "Sube tu material y crea {vídeos verticales}, portadas y textos — con cientos de plantillas. Gratis para empezar.",
-    ctaText: "Empieza gratis",
-    ctaNote: "Sin tarjeta · Listo en 30 segundos",
-  },
-
-  /** ---------- 视频跑马灯 / Carrusel de vídeos ---------- */
-  videoSection: {
-    eyebrow: "Creaciones",
-    title: "Ya lo están usando",
-    linkText: "Ver todo →",
-    items: [
-      { videoUrl: "", badge: "NUEVO", title: "Modo noche", subtitle: "Plantilla urbana" },
-      { videoUrl: "", badge: "4K", title: "Primer plano", subtitle: "Plantilla e-commerce" },
-      { videoUrl: "", badge: "TOP", title: "Viaje al ritmo", subtitle: "Plantilla musical" },
-      { videoUrl: "", badge: "NUEVO", title: "Gastronomía", subtitle: "Plantilla foodie" },
-      { videoUrl: "", badge: "4K", title: "Estética neón", subtitle: "Plantilla cyber" },
-      { videoUrl: "", badge: "PRO", title: "Subtítulos", subtitle: "Subtítulos automáticos" },
-      { videoUrl: "", badge: "EN VIVO", title: "Clips de directo", subtitle: "Cortes automáticos" },
-      { videoUrl: "", badge: "TOP", title: "Rutina fitness", subtitle: "Plantilla deportiva" },
-    ] as VideoCard[],
-  },
-
-  /** ---------- 图片画廊 / Galería ---------- */
-  gallery: {
-    eyebrow: "Banco de portadas",
-    title: "Miles de portadas. Tu estilo, exacto.",
-    items: Array.from({ length: 10 }, () => ({
-      imageUrl: "",
-      badge: "IA",
-    })) as GalleryItem[],
-  },
-
-  /** ---------- 三个卖点 / Ventajas ---------- */
-  features: [
-    {
-      title: "Montaje en un clic",
-      description:
-        "Sube el material y la IA se encarga del corte, la música y las transiciones en minutos.",
-    },
-    {
-      title: "Imágenes y vídeos generados",
-      description:
-        "Portadas y planos en cualquier estilo. Regenera las veces que quieras hasta acertar.",
-    },
-    {
-      title: "Tus propias plantillas",
-      description: "Guarda tus fuentes, colores y ritmo, y reutilízalos con un solo clic.",
-    },
-  ],
-
-  /** ---------- 底部行动区 / CTA final ---------- */
-  cta: {
-    /** 用 {} 包裹的词会高亮 */
-    title: "Empieza a {crear} ahora mismo.",
-    buttonText: "Empieza gratis",
-    note: "Sin tarjeta · Cancela cuando quieras",
-  },
-
-  /** ---------- 页脚 / Pie de página ---------- */
-  footer: {
-    links: [
-      { label: "Términos", href: "#" },
-      { label: "Privacidad", href: "#" },
-      { label: "Cookies", href: "#" },
-      { label: "Contacto", href: "#" },
-    ],
-    disclaimer:
-      "Todas las creaciones mostradas han sido generadas por usuarios con este producto y se muestran solo como demostración. Al continuar aceptas nuestros términos de servicio.",
-  },
-};
-
-export type LandingConfig = typeof landingConfig;
+/** 4) 图片链接（封面画廊，共 10 个，按顺序填） */
+export const images: string[] = [
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2F4c85304d-3e66-4fac-a359-f70887ed12b3%2F0.png&w=256&q=75", // 1  例: https://tu-dominio.com/images/1.jpg
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2Fcbb7c7e2-cefe-4ea0-b6c7-e7f6cf15708c%2F0.png&w=256&q=75", // 2
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2Fca1dd5fd-711e-4b7e-b39b-827f11f7ceb5%2F0.png&w=256&q=75", // 3
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2F4c06548a-16c5-492a-a1fb-3d90ae85c6a0%2F0.png&w=256&q=75", // 4
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2F6fe05139-d04f-4d1e-a005-884a4d8dcd9c%2F0.png&w=256&q=75", // 5
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2Ff58fe3d3-6b52-420d-9337-9cff8e679a82%2F0.png&w=256&q=75", // 6
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2F71ba118f-7a82-4249-8d9c-6a99258ad4e0%2F0.png&w=256&q=75", // 7
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2Fdb9d880c-a438-4cb3-8d10-ba540c09bfed%2F0.png&w=256&q=75", // 8
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2Fc907d8d1-5a34-444e-97d3-c5d3d0f47d9f%2F0.png&w=256&q=75", // 9
+  "https://xxcited.ai/_next/image?url=https%3A%2F%2Fcdn.xxcited.ai%2Fgen%2F68444409-b30b-4c7f-b3bf-485dd534a22c%2F0.png&w=256&q=75", // 10
+];
